@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ML Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #08090C;
+    --bg-alt: #0F1115;
+    --bg-raised: #15171D;
+    --line: #23262E;
+    --line-soft: #1A1C22;
+    --text: #F2F3F5;
+    --text-dim: #9599A3;
+    --text-faint: #55585F;
+    --accent: #4DE5C7;
+    --accent-dim: #34C3A8;
+    --accent-warm: #FF8A5B;
+  }
+  * { box-sizing: border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:'Manrope', 'Segoe UI', sans-serif;
+    line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.brand,.btn,.tag,.num{ font-family:'Instrument Sans','Segoe UI',sans-serif; }
+  a{ color:inherit; }
+  ::selection{ background:var(--accent); color:#08090C; }
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(8,9,12,0.75); backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  nav{ display:flex; align-items:center; justify-content:space-between; padding:20px 0; }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:700; font-size:1.05rem; text-decoration:none; letter-spacing:-0.01em; }
+  .brand .mark{ width:26px; height:26px; border-radius:7px; background:linear-gradient(135deg, var(--accent), var(--accent-dim)); display:flex; align-items:center; justify-content:center; color:#08090C; font-size:0.72rem; font-weight:800; }
+  .nav-links{ display:flex; gap:32px; list-style:none; margin:0; padding:0; }
+  .nav-links a{ text-decoration:none; font-size:0.92rem; font-weight:500; color:var(--text-dim); transition:color .2s ease; }
+  .nav-links a:hover{ color:var(--text); }
+  .nav-cta{
+    border:1px solid var(--accent); color:var(--accent); padding:9px 18px; border-radius:6px;
+    font-size:0.88rem; font-weight:600; text-decoration:none; transition:background .2s ease, color .2s ease;
+  }
+  .nav-cta:hover{ background:var(--accent); color:#08090C; }
+
+  /* Hero */
+  .hero-section{ position:relative; overflow:hidden; border-bottom:1px solid var(--line-soft); }
+  .hero-glow{ position:absolute; top:-200px; left:50%; transform:translateX(-50%); width:900px; height:500px; background:radial-gradient(ellipse, rgba(77,229,199,0.16), transparent 65%); pointer-events:none; }
+  .hero{ position:relative; padding:110px 0 90px; text-align:center; display:flex; flex-direction:column; align-items:center; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; color:var(--accent); font-size:0.82rem; font-weight:600;
+    border:1px solid rgba(77,229,199,0.3); background:rgba(77,229,199,0.06); padding:7px 14px; border-radius:100px; margin-bottom:28px;
+  }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 0 rgba(77,229,199,0.5); animation:pulse 2s infinite; }
+  @keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(77,229,199,.4);} 70%{box-shadow:0 0 0 8px rgba(77,229,199,0);} 100%{box-shadow:0 0 0 0 rgba(77,229,199,0);} }
+
+  .hero h1{ font-size:clamp(2.6rem, 6vw, 4.6rem); line-height:1.04; font-weight:700; letter-spacing:-0.03em; margin:0 0 24px; max-width:15ch; }
+  .hero h1 .reveal{ display:block; overflow:hidden; }
+  .hero h1 .reveal span{ display:block; transform:translateY(112%); animation:riseUp .9s cubic-bezier(.22,.9,.28,1) forwards; }
+  .hero h1 .reveal:nth-child(1) span{ animation-delay:.05s; }
+  .hero h1 .reveal:nth-child(2) span{ animation-delay:.18s; color:var(--accent); }
+  @keyframes riseUp{ to{ transform:translateY(0); } }
+  .hero p.lede{ color:var(--text-dim); font-size:1.15rem; max-width:52ch; margin:0 0 38px; opacity:0; animation:fadeIn .8s ease forwards; animation-delay:.5s; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  .hero-ctas{ display:flex; gap:14px; opacity:0; animation:fadeIn .8s ease forwards; animation-delay:.65s; margin-bottom:64px; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:#08090C; text-decoration:none;
+    padding:14px 26px; border-radius:7px; font-weight:700; font-size:0.95rem;
+    transition:transform .2s ease, box-shadow .2s ease;
+    box-shadow:0 12px 28px -10px rgba(77,229,199,0.5);
+  }
+  .btn:hover{ transform:translateY(-2px); box-shadow:0 16px 32px -10px rgba(77,229,199,0.65); }
+  .btn-ghost{
+    display:inline-flex; align-items:center; gap:6px; color:var(--text); text-decoration:none; font-size:0.95rem; font-weight:600;
+    padding:14px 24px; border-radius:7px; border:1px solid var(--line); transition:border-color .2s ease, background .2s ease;
+  }
+  .btn-ghost:hover{ border-color:var(--text-faint); background:var(--bg-raised); }
+
+  .stat-strip{
+    display:grid; grid-template-columns:repeat(4,1fr); width:100%; max-width:920px;
+    border-top:1px solid var(--line-soft); opacity:0; animation:fadeIn .8s ease forwards; animation-delay:.8s;
+  }
+  .stat-strip .s{ padding:24px 12px 0; text-align:center; border-left:1px solid var(--line-soft); }
+  .stat-strip .s:first-child{ border-left:none; }
+  .stat-strip .num{ font-size:1.9rem; font-weight:700; letter-spacing:-0.02em; color:var(--accent); }
+  .stat-strip .lab{ color:var(--text-faint); font-size:0.78rem; margin-top:4px; }
+
+  /* Sections */
+  section{ padding:96px 0; border-bottom:1px solid var(--line-soft); }
+  .section-head{ margin-bottom:52px; max-width:60ch; }
+  .kicker{ color:var(--accent); font-size:0.82rem; font-weight:700; margin:0 0 12px; letter-spacing:0.01em; }
+  .section-head h2{ font-size:2.1rem; font-weight:700; letter-spacing:-0.02em; margin:0 0 14px; }
+  .section-head p{ color:var(--text-dim); margin:0; font-size:1.02rem; }
+
+  .domains{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line-soft); border:1px solid var(--line-soft); border-radius:12px; overflow:hidden; }
+  .domain{ background:var(--bg-alt); padding:32px 26px; transition:background .2s ease; }
+  .domain:hover{ background:var(--bg-raised); }
+  .domain .n{ color:var(--text-faint); font-size:0.78rem; font-weight:700; margin-bottom:18px; }
+  .domain h3{ margin:0 0 10px; font-size:1.08rem; font-weight:600; }
+  .domain p{ margin:0; color:var(--text-dim); font-size:0.88rem; }
+
+  .timeline{ display:flex; flex-direction:column; }
+  .t-row{
+    display:grid; grid-template-columns:120px 1fr auto; gap:28px; align-items:center;
+    padding:26px 0; border-top:1px solid var(--line-soft);
+  }
+  .timeline .t-row:last-child{ border-bottom:1px solid var(--line-soft); }
+  .t-row .when{ color:var(--text-faint); font-size:0.86rem; font-weight:600; }
+  .t-row h3{ margin:0 0 4px; font-size:1.1rem; font-weight:600; }
+  .t-row p{ margin:0; color:var(--text-dim); font-size:0.88rem; }
+  .t-row .link{ color:var(--accent); font-size:0.88rem; font-weight:600; text-decoration:none; white-space:nowrap; }
+
+  .showcase-band{
+    border:1px solid var(--line); border-radius:16px; padding:48px 44px;
+    background:radial-gradient(ellipse 600px 300px at 90% 0%, rgba(77,229,199,0.1), transparent 60%), var(--bg-alt);
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center;
+  }
+  .showcase-band h2{ font-size:1.7rem; margin:0 0 14px; max-width:20ch; font-weight:700; letter-spacing:-0.01em; }
+  .showcase-band p{ color:var(--text-dim); margin:0 0 26px; max-width:42ch; }
+  .mini-cards{ display:flex; flex-direction:column; gap:10px; }
+  .mini-card{ border:1px solid var(--line); background:var(--bg-raised); border-radius:8px; padding:15px 18px; display:flex; justify-content:space-between; align-items:center; }
+  .mini-card .t{ font-size:0.92rem; font-weight:600; }
+  .mini-card .s{ color:var(--text-faint); font-size:0.78rem; margin-top:2px; }
+  .mini-card .pill{ font-size:0.72rem; color:var(--accent); border:1px solid rgba(77,229,199,0.3); background:rgba(77,229,199,0.08); padding:4px 10px; border-radius:100px; }
+
+  /* Members — no committee titles, grouped by what they work on */
+  .members{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line-soft); border:1px solid var(--line-soft); border-radius:12px; overflow:hidden; }
+  .m-group{ background:var(--bg-alt); padding:30px 28px; }
+  .m-group .g-label{ color:var(--accent); font-size:0.78rem; font-weight:700; margin-bottom:20px; }
+  .m-person{ display:flex; align-items:center; gap:12px; padding:9px 0; }
+  .m-person .av{ width:34px; height:34px; border-radius:8px; background:var(--bg-raised); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700; color:var(--text-dim); flex-shrink:0; }
+  .m-person .nm{ font-size:0.92rem; font-weight:500; }
+
+  .join{
+    text-align:center; border:1px solid var(--line); border-radius:16px; padding:64px 40px;
+    background:radial-gradient(ellipse 700px 320px at 50% 0%, rgba(77,229,199,0.1), transparent 60%), var(--bg-alt);
+  }
+  .join h2{ font-size:2.1rem; margin:0 0 14px; font-weight:700; letter-spacing:-0.02em; }
+  .join p{ color:var(--text-dim); max-width:46ch; margin:0 auto 30px; }
+
+  footer{ padding:36px 0; display:flex; justify-content:space-between; align-items:center; color:var(--text-faint); font-size:0.85rem; }
+  footer .socials{ display:flex; gap:22px; }
+  footer a{ text-decoration:none; color:var(--text-faint); transition:color .2s ease; }
+  footer a:hover{ color:var(--text); }
+
+  @media (max-width:860px){
+    .domains{ grid-template-columns:1fr 1fr; }
+    .members{ grid-template-columns:1fr; }
+    .stat-strip{ grid-template-columns:repeat(2,1fr); row-gap:24px; }
+    .stat-strip .s:nth-child(3){ border-left:none; }
+    .t-row{ grid-template-columns:1fr; text-align:left; gap:6px; }
+    .showcase-band{ grid-template-columns:1fr; padding:32px 26px; }
+    .nav-links{ display:none; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="#" class="brand"><span class="mark">ML</span>ML Club</a>
+    <ul class="nav-links">
+      <li><a href="#domains">Domains</a></li>
+      <li><a href="#showcase">Projects</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#members">Members</a></li>
+    </ul>
+    <a href="#join" class="nav-cta">Join us</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero-section">
+  <div class="hero-glow"></div>
+  <div class="hero wrap">
+    <p class="eyebrow"><span class="dot"></span>Open for new members — Spring cohort</p>
+    <h1>
+      <span class="reveal"><span>Where students learn</span></span>
+      <span class="reveal"><span>machine learning by shipping it</span></span>
+    </h1>
+    <p class="lede">A community of builders, not just a lecture series. Weekly sessions, real projects, and a public showcase of everything the club has ever built.</p>
+    <div class="hero-ctas">
+      <a href="#join" class="btn">Join the club →</a>
+      <a href="#showcase" class="btn-ghost">View showcase</a>
+    </div>
+    <div class="stat-strip">
+      <div class="s"><div class="num">120+</div><div class="lab">Members</div></div>
+      <div class="s"><div class="num">30</div><div class="lab">Sessions / year</div></div>
+      <div class="s"><div class="num">14</div><div class="lab">Projects shipped</div></div>
+      <div class="s"><div class="num">4</div><div class="lab">Domains covered</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="domains" class="wrap">
+  <div class="section-head">
+    <p class="kicker">Domains</p>
+    <h2>Pick a track, or explore all four</h2>
+    <p>Everyone starts in fundamentals — after that, sessions branch by interest.</p>
+  </div>
+  <div class="domains">
+    <div class="domain"><div class="n">01</div><h3>Core ML</h3><p>Regression to gradient boosting — the fundamentals every track builds on.</p></div>
+    <div class="domain"><div class="n">02</div><h3>Deep Learning</h3><p>Neural nets, CNNs, and transformers, built from scratch and with frameworks.</p></div>
+    <div class="domain"><div class="n">03</div><h3>NLP & Speech</h3><p>Language models, embeddings, and regional-language speech tools.</p></div>
+    <div class="domain"><div class="n">04</div><h3>Applied / MLOps</h3><p>Getting a model from a notebook into something people can actually use.</p></div>
+  </div>
+</section>
+
+<section id="showcase" class="wrap">
+  <div class="showcase-band">
+    <div>
+      <p class="kicker">Member projects</p>
+      <h2>Every project the club has shipped, in one place</h2>
+      <p>Members submit what they've built — problem, stack, demo link, and everyone on the team — and it goes up on the public showcase.</p>
+      <a href="#" class="btn">Browse the showcase →</a>
+    </div>
+    <div class="mini-cards">
+      <div class="mini-card"><div><div class="t">Crop Disease Classifier</div><div class="s">A. Rao, S. Iyer</div></div><span class="pill">PyTorch</span></div>
+      <div class="mini-card"><div><div class="t">Kannada Speech-to-Text</div><div class="s">M. Prasad</div></div><span class="pill">Whisper</span></div>
+      <div class="mini-card"><div><div class="t">Campus Bus Predictor</div><div class="s">J. Tauro, R. Shetty</div></div><span class="pill">scikit-learn</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="events" class="wrap">
+  <div class="section-head">
+    <p class="kicker">Schedule</p>
+    <h2>What's happening this month</h2>
+  </div>
+  <div class="timeline">
+    <div class="t-row">
+      <div class="when">Oct 14, 6 PM</div>
+      <div><h3>Intro to neural networks, from scratch</h3><p>Building a small network in plain NumPy — no frameworks, no shortcuts.</p></div>
+      <a href="#" class="link">Details →</a>
+    </div>
+    <div class="t-row">
+      <div class="when">Oct 21, 6 PM</div>
+      <div><h3>Paper read: Attention Is All You Need</h3><p>Walking through the transformer paper section by section.</p></div>
+      <a href="#" class="link">Details →</a>
+    </div>
+    <div class="t-row">
+      <div class="when">Oct 28, All day</div>
+      <div><h3>48-hour build sprint</h3><p>Small teams, one weekend, one shipped project.</p></div>
+      <a href="#" class="link">Details →</a>
+    </div>
+  </div>
+</section>
+
+<section id="members" class="wrap">
+  <div class="section-head">
+    <p class="kicker">Members</p>
+    <h2>Who's building right now</h2>
+    <p>Grouped by what people are currently working on, not by rank.</p>
+  </div>
+  <div class="members">
+    <div class="m-group">
+      <div class="g-label">DEEP LEARNING</div>
+      <div class="m-person"><div class="av">AK</div><div class="nm">Member Name</div></div>
+      <div class="m-person"><div class="av">RS</div><div class="nm">Member Name</div></div>
+      <div class="m-person"><div class="av">VP</div><div class="nm">Member Name</div></div>
+    </div>
+    <div class="m-group">
+      <div class="g-label">NLP & SPEECH</div>
+      <div class="m-person"><div class="av">MP</div><div class="nm">Member Name</div></div>
+      <div class="m-person"><div class="av">JT</div><div class="nm">Member Name</div></div>
+    </div>
+    <div class="m-group">
+      <div class="g-label">APPLIED / MLOPS</div>
+      <div class="m-person"><div class="av">SN</div><div class="nm">Member Name</div></div>
+      <div class="m-person"><div class="av">DK</div><div class="nm">Member Name</div></div>
+      <div class="m-person"><div class="av">PR</div><div class="nm">Member Name</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="join" class="wrap" style="border-bottom:none;">
+  <div class="join">
+    <p class="kicker" style="justify-content:center; display:flex;">Join us</p>
+    <h2>No prerequisites. Just curiosity.</h2>
+    <p>Drop your email and we'll add you to the group where sessions, papers, and project calls get posted.</p>
+    <a href="mailto:mlclub@yourcollege.edu" class="btn">Email us to join →</a>
+  </div>
+</section>
+</main>
+
+<footer class="wrap">
+  <span>© 2026 ML Club · [Your College Name]</span>
+  <div class="socials"><a href="#">Instagram</a><a href="#">GitHub</a><a href="#">LinkedIn</a></div>
+</footer>
+
+</body>
+</html>
